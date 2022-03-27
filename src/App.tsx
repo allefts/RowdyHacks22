@@ -25,11 +25,10 @@ const App = () => {
   const line6Ref = useRef<HTMLDivElement>(null);
 
   let lineRefs = [line1Ref, line2Ref, line3Ref, line4Ref, line5Ref];
+  let lineOrder = [line1Ref, line2Ref, line3Ref, line4Ref, line5Ref];
 
   let currentDir = false;
-  let startPos = { x: -5, y: 6 };
-  let leftPos = { x: -6, y: 5 };
-  let rightPos = { x: -4, y: 5 };
+  // let startPos = { x: -5, y: 6 };
 
   const changeDir = (event: KeyboardEvent) => {
     //Ctrl
@@ -46,10 +45,63 @@ const App = () => {
     }
   };
 
+  const updateGrid = (dir: boolean) => {
+    lineRefs.forEach((line) => {
+      let lineRow;
+      if (dir) {
+        lineRow = +line.current.style.gridRow + 1;
+      } else {
+        lineRow = +line.current.style.gridRow - 1;
+      }
+      let lineCol = +line.current.style.gridColumn + 1;
+      // console.log(line.current.style.gridRow);
+      line.current.style.setProperty("grid-row", lineRow.toString());
+      line.current.style.setProperty("grid-column", lineCol.toString());
+    });
+  };
+
+  const sendToBack = () => {
+    //does nothign
+    let lastLine = +lineOrder[4].current.style.gridColumn;
+    let secondlastLine = +lineOrder[4].current.style.gridColumn;
+    let randomBool = Math.random() > 0.5;
+    if (randomBool) {
+      lastLine = secondlastLine + 1;
+    } else {
+      lastLine = secondlastLine - 1;
+    }
+  };
+
+  let leftPos = { x: -6, y: 5 };
+  let rightPos = { x: -4, y: 5 };
   const jump = (event: KeyboardEvent) => {
+    //F -> Right, T -> Left
     //Space
     if (event.keyCode === 32) {
       if (currentDir) {
+        if (+lineOrder[0].current.style.gridColumn === -6) {
+          //Jump Success
+          let moveToBack = lineOrder.shift();
+          lineOrder.push(moveToBack);
+          updateGrid(true);
+          // sendToBack();
+          console.log("MADE JUMP");
+        } else {
+          //Jump Fail
+          console.log("FAILED JUMP");
+        }
+      } else {
+        if (+lineOrder[0].current.style.gridColumn === -4) {
+          let moveToBack = lineOrder.shift();
+          lineOrder.push(moveToBack);
+          updateGrid(false);
+          // sendToBack();
+          //Jump Success
+          console.log("MADE JUMP");
+        } else {
+          //Jump Fail
+          console.log("FAILED JUMP");
+        }
       }
     } else {
     }
