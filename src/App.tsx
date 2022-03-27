@@ -48,12 +48,14 @@ const App = () => {
   const updateGrid = (dir: boolean) => {
     lineRefs.forEach((line) => {
       let lineRow;
+      let lineCol;
       if (dir) {
         lineRow = +line.current.style.gridRow + 1;
+        lineCol = +line.current.style.gridColumn + 1;
       } else {
-        lineRow = +line.current.style.gridRow - 1;
+        lineRow = +line.current.style.gridRow + 1;
+        lineCol = +line.current.style.gridColumn - 1;
       }
-      let lineCol = +line.current.style.gridColumn + 1;
       // console.log(line.current.style.gridRow);
       line.current.style.setProperty("grid-row", lineRow.toString());
       line.current.style.setProperty("grid-column", lineCol.toString());
@@ -80,7 +82,7 @@ const App = () => {
     if (event.keyCode === 32) {
       if (currentDir) {
         if (+lineOrder[0].current.style.gridColumn === -6) {
-          //Jump Success
+          //Jump Success to Left
           let moveToBack = lineOrder.shift();
           lineOrder.push(moveToBack);
           updateGrid(true);
@@ -92,11 +94,11 @@ const App = () => {
         }
       } else {
         if (+lineOrder[0].current.style.gridColumn === -4) {
+          //Jump Success to Right
           let moveToBack = lineOrder.shift();
           lineOrder.push(moveToBack);
           updateGrid(false);
           // sendToBack();
-          //Jump Success
           console.log("MADE JUMP");
         } else {
           //Jump Fail
