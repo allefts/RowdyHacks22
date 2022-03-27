@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import "./App.css";
@@ -63,15 +64,18 @@ const App = () => {
   };
 
   const sendToBack = () => {
-    //does nothign
+    console.log("Sending to Back");
     let lastLine = +lineOrder[4].current.style.gridColumn;
     let secondlastLine = +lineOrder[4].current.style.gridColumn;
+    console.log(secondlastLine);
     let randomBool = Math.random() > 0.5;
     if (randomBool) {
       lastLine = secondlastLine + 1;
     } else {
       lastLine = secondlastLine - 1;
     }
+    +lineOrder[4].current.style.setProperty("grid-column", lastLine.toString());
+    +lineOrder[4].current.style.setProperty("grid-row", "1");
   };
 
   let leftPos = { x: -6, y: 5 };
@@ -86,8 +90,8 @@ const App = () => {
           let moveToBack = lineOrder.shift();
           lineOrder.push(moveToBack);
           updateGrid(true);
-          // sendToBack();
-          console.log("MADE JUMP");
+          sendToBack();
+          // console.log("MADE JUMP");
         } else {
           //Jump Fail
           console.log("FAILED JUMP");
@@ -98,8 +102,8 @@ const App = () => {
           let moveToBack = lineOrder.shift();
           lineOrder.push(moveToBack);
           updateGrid(false);
-          // sendToBack();
-          console.log("MADE JUMP");
+          sendToBack();
+          // console.log("MADE JUMP");
         } else {
           //Jump Fail
           console.log("FAILED JUMP");
