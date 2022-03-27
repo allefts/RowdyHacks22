@@ -1,3 +1,11 @@
+# If you want to play this:
+## Install NodeJS and NPM after.
+## Clone this Repo
+## Open the repo in a terminal and run npm install
+## run npm start.
+## Done
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
