@@ -141,6 +141,11 @@ const App = () => {
       <h1 className="scoreCount" ref={scoreRef}>
         Current Score:
       </h1>
+      <div className="instructions">
+        <h3>Instructions:</h3>
+        <h3>CTRL: Rotate & Jump</h3>
+        <h3>SPACE: Jump</h3>
+      </div>
       <Map ref={gridRef}>
         <Player ref={playerRef} />
         <Line line="line" ref={line1Ref} />
@@ -162,6 +167,12 @@ const StyledApp = styled.div`
   .scoreCount {
     position: absolute;
     top: 0;
+  }
+
+  .instructions {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 `;
 
