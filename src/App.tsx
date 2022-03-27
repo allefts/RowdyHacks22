@@ -8,22 +8,17 @@ import Player from "./Components/Player";
 import Map from "./Components/Map";
 import Line from "./Components/Line";
 
-type newLine = {
-  name: string;
-  x: number;
-  y: number;
-};
-
 const App = () => {
   const playerRef = useRef<HTMLImageElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+
+  const scoreRef = useRef<HTMLHeadingElement>(null);
 
   const line1Ref = useRef<HTMLDivElement>(null);
   const line2Ref = useRef<HTMLDivElement>(null);
   const line3Ref = useRef<HTMLDivElement>(null);
   const line4Ref = useRef<HTMLDivElement>(null);
   const line5Ref = useRef<HTMLDivElement>(null);
-  const line6Ref = useRef<HTMLDivElement>(null);
 
   let lineRefs = [line1Ref, line2Ref, line3Ref, line4Ref, line5Ref];
   let lineOrder = [line1Ref, line2Ref, line3Ref, line4Ref, line5Ref];
@@ -64,10 +59,9 @@ const App = () => {
   };
 
   const sendToBack = () => {
-    console.log("Sending to Back");
+    // console.log("Sending to Back");
     let lastLine = +lineOrder[4].current.style.gridColumn;
-    let secondlastLine = +lineOrder[4].current.style.gridColumn;
-    console.log(secondlastLine);
+    let secondlastLine = +lineOrder[3].current.style.gridColumn;
     let randomBool = Math.random() > 0.5;
     if (randomBool) {
       lastLine = secondlastLine + 1;
@@ -78,8 +72,7 @@ const App = () => {
     +lineOrder[4].current.style.setProperty("grid-row", "1");
   };
 
-  let leftPos = { x: -6, y: 5 };
-  let rightPos = { x: -4, y: 5 };
+  let currScore = 0;
   const jump = (event: KeyboardEvent) => {
     //F -> Right, T -> Left
     //Space
@@ -91,10 +84,11 @@ const App = () => {
           lineOrder.push(moveToBack);
           updateGrid(true);
           sendToBack();
-          // console.log("MADE JUMP");
+          scoreRef.current.innerText = `Current Score: ${++currScore}`;
         } else {
           //Jump Fail
-          console.log("FAILED JUMP");
+          alert("FAILED OR BUG");
+          scoreRef.current.innerText = `Current Score: 0`;
         }
       } else {
         if (+lineOrder[0].current.style.gridColumn === -4) {
@@ -103,10 +97,11 @@ const App = () => {
           lineOrder.push(moveToBack);
           updateGrid(false);
           sendToBack();
-          // console.log("MADE JUMP");
+          scoreRef.current.innerText = `Current Score: ${++currScore}`;
         } else {
+          alert("FAILED OR BUG");
+          scoreRef.current.innerText = `Current Score: 0`;
           //Jump Fail
-          console.log("FAILED JUMP");
         }
       }
     } else {
@@ -114,7 +109,6 @@ const App = () => {
   };
 
   const initLines = () => {
-    line6Ref.current.style.display = "none";
     let nextPos = { x: -5, y: 6 };
     lineRefs.forEach((line) => {
       //F -> Right, T -> Left
@@ -144,6 +138,9 @@ const App = () => {
 
   return (
     <StyledApp>
+      <h1 className="scoreCount" ref={scoreRef}>
+        Current Score:
+      </h1>
       <Map ref={gridRef}>
         <Player ref={playerRef} />
         <Line line="line" ref={line1Ref} />
@@ -151,7 +148,6 @@ const App = () => {
         <Line line="line" ref={line3Ref} />
         <Line line="line" ref={line4Ref} />
         <Line line="line" ref={line5Ref} />
-        <Line line="line" ref={line6Ref} />
       </Map>
     </StyledApp>
   );
@@ -162,6 +158,11 @@ const StyledApp = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column-reverse;
+
+  .scoreCount {
+    position: absolute;
+    top: 0;
+  }
 `;
 
 export default App;
